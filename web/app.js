@@ -1,10 +1,14 @@
 var App = App || {};
 
+App.constants = {
+	basePath: 'http://localhost:8080/'
+}
+
 App.utils = App.utils || {};
 
 App.utils.createGrid = function(config) {
 	if (!config) {
-		throw new error("Cannot initialize the grid", config)
+		throw new error("Cannot initialize the grid", config);
 	}
 	var dataUrl = config.dataUrl,
 		columns = config.columns,
@@ -52,10 +56,11 @@ App.utils.createGrid = function(config) {
 		};
 
 	jQuery.ajax({
-		method: "GET",
-		url: "http://hexedware.com:8080/user/list",
+		method: "POST",
+		data: JSON.stringify({"token": "6"}),
+		url: dataUrl,
 		success: function(resp) {
-			data = resp.users;
+			data = resp.items;
 			buildGrid();
 		},
 		error: function(e) {

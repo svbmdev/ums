@@ -44,4 +44,35 @@ public class DBManager {
         return rs.getInt(1);
     }
 
+    public static int addCourse(JSONObject request) throws SQLException {
+        PreparedStatement ps = DBManager.getConnection().prepareStatement("INSERT INTO courses(name) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+        ps.setString(1, request.getString("name"));
+        ps.execute();
+        ResultSet rs = ps.getGeneratedKeys();
+        rs.next();
+
+        return rs.getInt(1);
+    }
+
+    public static int addGroup(JSONObject request) throws SQLException {
+        PreparedStatement ps = DBManager.getConnection().prepareStatement("INSERT INTO groups(semesters_id, name) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
+        ps.setInt(1, request.getInt("semesters_id"));
+        ps.setString(2, request.getString("name"));
+        ps.execute();
+        ResultSet rs = ps.getGeneratedKeys();
+        rs.next();
+
+        return rs.getInt(1);
+    }
+
+    public static int addSemester(JSONObject request) throws SQLException {
+        PreparedStatement ps = DBManager.getConnection().prepareStatement("INSERT INTO semesters(year, `index`) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
+        ps.setInt(1, request.getInt("year"));
+        ps.setString(2, request.getString("index"));
+        ps.execute();
+        ResultSet rs = ps.getGeneratedKeys();
+        rs.next();
+
+        return rs.getInt(1);
+    }
 }
