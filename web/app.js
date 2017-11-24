@@ -1,10 +1,22 @@
 var App = App || {};
 
 App.constants = {
-	basePath: 'http://localhost:8080/'
-}
+	baseApiPath: 'http://localhost:8080/',
+	baseUrl: 'http://localhost:63342/ums/web/'
+};
 
 App.utils = App.utils || {};
+
+App.redirect = function(url) {
+	if (!url) {
+		return false;
+	}
+	if (url.replace(App.baseUrl) !== url) {
+		url = App.baseUrl + url;
+
+	}
+	window.location.href = url;
+}
 
 App.utils.createGrid = function(config) {
 	if (!config) {
@@ -69,3 +81,35 @@ App.utils.createGrid = function(config) {
 	})
 
 };
+
+App.utils.serializeFrom = function(target){
+
+	var objectify = function (formArray) {
+        var returnArray = {token: App.ss.get('auth')['token'].toString()}, i = 0
+		;
+		for (i = 0; i<formArray.length; i++) {
+			returnArray[formArray[i]['name']] = formArray[i]['value'];
+		}
+		return returnArray;
+		
+    };
+
+    return objectify($(target).serializeArray());
+};
+
+App.ss = {
+	get: function(key){
+		return JSON.parse(sessionStorage.getItem(key))    ;
+	},
+	set: function(key, value) {
+		value = JSON.stringify(value);
+		sessionStorage.setItem(key, value);
+	}
+};
+
+(function(){
+	var auth = App.ss.get('auth');
+	if (!auth.token && window.location.href == window.location.href.replace('login.html')) {
+		window.location.href = App.constants.baseUrl + 'login.html';
+	}
+}());
