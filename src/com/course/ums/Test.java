@@ -4,6 +4,9 @@ import com.course.ums.ws.AddUser;
 import com.course.ums.ws.ListUsers;
 import com.course.ums.ws.course.AddCourse;
 import com.course.ums.ws.course.ListCourses;
+import com.course.ums.ws.exam.AddExam;
+import com.course.ums.ws.exam.ListExams;
+import com.course.ums.ws.exam.ListViewExams;
 import com.course.ums.ws.group.AddGroup;
 import com.course.ums.ws.group.ListGroups;
 import com.course.ums.ws.semester.AddSemester;
@@ -43,6 +46,9 @@ public class Test {
         Spark.post("course/list", new ListCourses());
         Spark.post("semester/list", new ListSemesters());
         Spark.post("group/list", new ListGroups());
+        Spark.post("exam/list", new ListExams());
+        Spark.post("exam/list_view", new ListViewExams());
+        Spark.post("exam/add", new AddExam());
 
     }
 }
